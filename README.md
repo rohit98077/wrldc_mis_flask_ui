@@ -24,7 +24,7 @@ nssm.exe edit mis_dashboard
 ```
 
 ### Setup output stream files for service name mis_dashboard
-````bat
+```bat
 nssm.exe set mis_dashboard AppStdout "path\to\app_output.log"
 nssm.exe set mis_dashboard AppStderr "path\to\app_output.log"
 ```
