@@ -15,7 +15,6 @@ appConfig = getConfig()
 # Set the secret key to some random bytes
 app.secret_key = appConfig['flaskSecret']
 
-
 @app.route('/')
 def hello():
     return render_template('home.html.j2')
