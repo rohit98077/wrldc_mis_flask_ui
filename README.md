@@ -38,7 +38,9 @@ sc stop svc_name
 ```
 
 ### see a service info in windows
-````sc query svc_name```
+```bat
+sc query svc_name
+```
 
 ### run flask app as a windows service without nssm using pywin32
 * Run flask app as a windows service using pywin32 module - https://stackoverflow.com/questions/23550067/deploy-flask-app-as-windows-service
