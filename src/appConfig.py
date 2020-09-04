@@ -1,7 +1,8 @@
 import pandas as pd
+from src.typeDefs.appConfig import IAppConfig 
 
 
-def getConfig(configFilename='config.xlsx') -> dict:
+def getConfig(configFilename='config.xlsx') -> IAppConfig:
     """[summary]
     Get the application config from config.xlsx file
     Returns:

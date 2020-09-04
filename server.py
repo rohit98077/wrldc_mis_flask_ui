@@ -4,6 +4,7 @@ This is the web server that acts as a service that creates outages raw data
 from src.appConfig import getConfig
 from flask import Flask, request, jsonify, render_template
 from src.services.rawOutagesCreationHandler import RawOutagesCreationHandler
+from src.services.rawPairAnglesCreationHandler import RawPairAnglesCreationHandler
 import datetime as dt
 # from waitress import serve
 
@@ -33,6 +34,20 @@ def createRawOutages():
         return jsonify(resp), resp['status']
     # in case of get request just return the html template
     return render_template('createRawOutages.html.j2')
+
+@app.route('/createRawPairAngles', methods=['GET', 'POST'])
+def createRawPairAngles():
+    # in case of post request, create raw pair angles and return json response
+    if request.method == 'POST':
+        reqData = request.get_json()
+        pairAnglesCreator = RawPairAnglesCreationHandler(
+            appConfig['rawPairAnglesCreationServiceUrl'])
+        startDate = dt.datetime.strptime(reqData['startDate'], '%Y-%m-%d')
+        endDate = dt.datetime.strptime(reqData['endDate'], '%Y-%m-%d')
+        resp = pairAnglesCreator.createRawPairAngles(startDate, endDate)
+        return jsonify(resp), resp['status']
+    # in case of get request just return the html template
+    return render_template('createRawPairAngles.html.j2')
 
 
 if __name__ == '__main__':
