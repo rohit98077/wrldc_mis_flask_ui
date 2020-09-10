@@ -7,6 +7,7 @@ from src.services.rawOutagesCreationHandler import RawOutagesCreationHandler
 from src.services.rawPairAnglesCreationHandler import RawPairAnglesCreationHandler
 from src.services.rawFreqCreationHandler import RawFrequencyCreationHandler
 from src.services.rawVoltCreationHandler import RawVoltageCreationHandler
+from src.services.derFreqCreationHandler import DerivedFrequencyCreationHandler
 import datetime as dt
 # from waitress import serve
 
@@ -82,6 +83,21 @@ def createRawVolt():
         return jsonify(resp), resp['status']
     # in case of get request just return the html template
     return render_template('createRawVolt.html.j2')
+
+
+@app.route('/createDerFreq', methods=['GET', 'POST'])
+def createDerFreq():
+    # in case of post request, create derived frequency and return json response
+    if request.method == 'POST':
+        reqData = request.get_json()
+        derFreqCreator = DerivedFrequencyCreationHandler(
+            appConfig['derivedFrequencyCreationServiceUrl'])
+        startDate = dt.datetime.strptime(reqData['startDate'], '%Y-%m-%d')
+        endDate = dt.datetime.strptime(reqData['endDate'], '%Y-%m-%d')
+        resp = derFreqCreator.createDerivedFrequency(startDate, endDate)
+        return jsonify(resp), resp['status']
+    # in case of get request just return the html template
+    return render_template('createDerFreq.html.j2')
 
 
 if __name__ == '__main__':
