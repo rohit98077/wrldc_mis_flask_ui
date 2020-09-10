@@ -11,7 +11,7 @@ from src.services.derFreqCreationHandler import DerivedFrequencyCreationHandler
 from src.services.derVoltCreationHandler import DerivedVoltageCreationHandler
 from src.services.derVdiCreationHandler import DerivedVdiCreationHandler
 import datetime as dt
-# from waitress import serve
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -101,6 +101,7 @@ def createDerFreq():
     # in case of get request just return the html template
     return render_template('createDerFreq.html.j2')
 
+
 @app.route('/createDerVolt', methods=['GET', 'POST'])
 def createDerVolt():
     # in case of post request, create derived voltage and return json response
@@ -114,6 +115,7 @@ def createDerVolt():
         return jsonify(resp), resp['status']
     # in case of get request just return the html template
     return render_template('createDerVolt.html.j2')
+
 
 @app.route('/createDerVdi', methods=['GET', 'POST'])
 def createDerVdi():
@@ -129,6 +131,10 @@ def createDerVdi():
     # in case of get request just return the html template
     return render_template('createDerVdi.html.j2')
 
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=int(appConfig['flaskPort']), debug=True)
-    # serve(app, host='0.0.0.0', port=int(appConfig['flaskPort']), threads=1)
+    serverMode: str = appConfig['mode']
+    if serverMode.lower() == 'd':
+        app.run(host="0.0.0.0", port=int(appConfig['flaskPort']), debug=True)
+    else:
+        serve(app, host='0.0.0.0', port=int(appConfig['flaskPort']), threads=1)
