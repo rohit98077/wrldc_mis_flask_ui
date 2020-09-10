@@ -5,6 +5,7 @@ from src.appConfig import getConfig
 from flask import Flask, request, jsonify, render_template
 from src.services.rawOutagesCreationHandler import RawOutagesCreationHandler
 from src.services.rawPairAnglesCreationHandler import RawPairAnglesCreationHandler
+from src.services.rawFreqCreationHandler import RawFrequencyCreationHandler
 import datetime as dt
 # from waitress import serve
 
@@ -48,6 +49,20 @@ def createRawPairAngles():
         return jsonify(resp), resp['status']
     # in case of get request just return the html template
     return render_template('createRawPairAngles.html.j2')
+
+@app.route('/createRawFreq', methods=['GET', 'POST'])
+def createRawFreq():
+    # in case of post request, create raw freq and return json response
+    if request.method == 'POST':
+        reqData = request.get_json()
+        rawFreqCreator = RawFrequencyCreationHandler(
+            appConfig['rawFrequencyCreationServiceUrl'])
+        startDate = dt.datetime.strptime(reqData['startDate'], '%Y-%m-%d')
+        endDate = dt.datetime.strptime(reqData['endDate'], '%Y-%m-%d')
+        resp = rawFreqCreator.createRawFrequency(startDate, endDate)
+        return jsonify(resp), resp['status']
+    # in case of get request just return the html template
+    return render_template('createRawFreq.html.j2')
 
 
 if __name__ == '__main__':
