@@ -9,6 +9,7 @@ from src.services.rawFreqCreationHandler import RawFrequencyCreationHandler
 from src.services.rawVoltCreationHandler import RawVoltageCreationHandler
 from src.services.derFreqCreationHandler import DerivedFrequencyCreationHandler
 from src.services.derVoltCreationHandler import DerivedVoltageCreationHandler
+from src.services.derVdiCreationHandler import DerivedVdiCreationHandler
 import datetime as dt
 # from waitress import serve
 
@@ -114,6 +115,19 @@ def createDerVolt():
     # in case of get request just return the html template
     return render_template('createDerVolt.html.j2')
 
+@app.route('/createDerVdi', methods=['GET', 'POST'])
+def createDerVdi():
+    # in case of post request, create derived voltage and return json response
+    if request.method == 'POST':
+        reqData = request.get_json()
+        derVdiCreator = DerivedVdiCreationHandler(
+            appConfig['derivedVdiCreationServiceUrl'])
+        startDate = dt.datetime.strptime(reqData['startDate'], '%Y-%m-%d')
+        endDate = dt.datetime.strptime(reqData['endDate'], '%Y-%m-%d')
+        resp = derVdiCreator.createDerivedVdi(startDate, endDate)
+        return jsonify(resp), resp['status']
+    # in case of get request just return the html template
+    return render_template('createDerVdi.html.j2')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(appConfig['flaskPort']), debug=True)
