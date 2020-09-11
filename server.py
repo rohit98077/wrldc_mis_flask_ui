@@ -10,7 +10,11 @@ from src.services.rawVoltCreationHandler import RawVoltageCreationHandler
 from src.services.derFreqCreationHandler import DerivedFrequencyCreationHandler
 from src.services.derVoltCreationHandler import DerivedVoltageCreationHandler
 from src.services.derVdiCreationHandler import DerivedVdiCreationHandler
+from src.services.iegcViolMsgsHandler import IegcViolMsgsCreationHandler
 import datetime as dt
+import pandas as pd
+import json
+import os
 from waitress import serve
 
 app = Flask(__name__)
@@ -20,6 +24,12 @@ appConfig = getConfig()
 
 # Set the secret key to some random bytes
 app.secret_key = appConfig['flaskSecret']
+
+# limit max upload file size to 10 MB
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+
+# valid file extensions
+app.config['UPLOAD_EXTENSIONS'] = ['.xlsx']
 
 
 @app.route('/')
@@ -130,6 +140,24 @@ def createDerVdi():
         return jsonify(resp), resp['status']
     # in case of get request just return the html template
     return render_template('createDerVdi.html.j2')
+
+
+@app.route('/createIegcViolMsgs', methods=['GET', 'POST'])
+def createIegcViolMsgs():
+    # in case of post request, create iegc violation messages and return reponse
+    if request.method == 'POST':
+        reqFile = request.files.get('inpFile')
+        filename = reqFile.filename
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in ['.xlsx']:
+                return render_template('createIegcViolMsgs.html.j2', data={'message': 'Only .xlsx files are supported'})
+        iegcViolMsgsCreator = IegcViolMsgsCreationHandler(
+            appConfig['iegcViolMsgsCreationServiceUrl'])
+        resp = iegcViolMsgsCreator.createIegcViolMsgs(reqFile)
+        return render_template('createIegcViolMsgs.html.j2', data={'message': json.dumps(resp)})
+    # in case of get request just return the html template
+    return render_template('createIegcViolMsgs.html.j2')
 
 
 if __name__ == '__main__':
