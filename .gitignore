@@ -5,6 +5,8 @@ config.xlsx
 __pycache__
 *.py[cod]
 *$py.class
+input_data/*
+!input_data/.gitinclude
 
 # Distribution / packaging 
 .Python build/ 
