@@ -156,7 +156,8 @@ def createIegcViolMsgs():
             file_ext = os.path.splitext(filename)[1]
             if file_ext not in ['.xlsx']:
                 return render_template('createIegcViolMsgs.html.j2', data={'message': 'Only .xlsx files are supported'})
-        iegcViolMsgsCreator = IegcViolMsgsCreationHandler(appConfig['iegcViolMsgsCreationServiceUrl'])
+        iegcViolMsgsCreator = IegcViolMsgsCreationHandler(
+            appConfig['iegcViolMsgsCreationServiceUrl'])
         resp = iegcViolMsgsCreator.createIegcViolMsgs(reqFile)
         return render_template('createIegcViolMsgs.html.j2', data={'message': json.dumps(resp)})
     # in case of get request just return the html template
@@ -175,7 +176,8 @@ def createTransmissionConstraints():
                 return render_template('createTransmissionConstraints.html.j2', data={'message': 'Only .xlsx files are supported'})
         transmissionConstraintsCreator = TransmissionConstraintsCreationHandler(
             appConfig['transmissionConstraintsCreationServiceUrl'])
-        resp = transmissionConstraintsCreator.createTransmissionConstraints(reqFile)
+        resp = transmissionConstraintsCreator.createTransmissionConstraints(
+            reqFile)
         return render_template('createTransmissionConstraints.html.j2', data={'message': json.dumps(resp)})
     # in case of get request just return the html template
     return render_template('createTransmissionConstraints.html.j2')
@@ -191,7 +193,8 @@ def createIctConstraints():
             file_ext = os.path.splitext(filename)[1]
             if file_ext not in ['.xlsx']:
                 return render_template('createIctConstraints.html.j2', data={'message': 'Only .xlsx files are supported'})
-        ictConstraintsCreator = IctConstraintsCreationHandler(appConfig['ictConstraintsCreationServiceUrl'])
+        ictConstraintsCreator = IctConstraintsCreationHandler(
+            appConfig['ictConstraintsCreationServiceUrl'])
         resp = ictConstraintsCreator.createIctConstraints(reqFile)
         return render_template('createIctConstraints.html.j2', data={'message': json.dumps(resp)})
     # in case of get request just return the html template
@@ -208,7 +211,8 @@ def createHighVoltageNode():
             file_ext = os.path.splitext(filename)[1]
             if file_ext not in ['.xlsx']:
                 return render_template('createHighVoltageNode.html.j2', data={'message': 'Only .xlsx files are supported'})
-        highVoltageNodeCreator = HighVoltageNodeCreationHandler(appConfig['highVoltageNodeCreationServiceUrl'])
+        highVoltageNodeCreator = HighVoltageNodeCreationHandler(
+            appConfig['highVoltageNodeCreationServiceUrl'])
         resp = highVoltageNodeCreator.createHighVoltageNode(reqFile)
         return render_template('createHighVoltageNode.html.j2', data={'message': json.dumps(resp)})
     # in case of get request just return the html template
@@ -225,7 +229,8 @@ def createLowVoltageNode():
             file_ext = os.path.splitext(filename)[1]
             if file_ext not in ['.xlsx']:
                 return render_template('createLowVoltageNode.html.j2', data={'message': 'Only .xlsx files are supported'})
-        lowVoltageNodeCreator = LowVoltageNodeCreationHandler(appConfig['lowVoltageNodeCreationServiceUrl'])
+        lowVoltageNodeCreator = LowVoltageNodeCreationHandler(
+            appConfig['lowVoltageNodeCreationServiceUrl'])
         resp = lowVoltageNodeCreator.createLowVoltageNode(reqFile)
         return render_template('createLowVoltageNode.html.j2', data={'message': json.dumps(resp)})
     # in case of get request just return the html template
