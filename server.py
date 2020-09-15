@@ -20,6 +20,7 @@ import pandas as pd
 import json
 import os
 from waitress import serve
+from src.routeControllers.createRawOutages import createRawOutagesPage
 
 app = Flask(__name__)
 
@@ -40,21 +41,7 @@ app.config['UPLOAD_EXTENSIONS'] = ['.xlsx']
 def hello():
     return render_template('home.html.j2')
 
-
-@app.route('/createRawOutages', methods=['GET', 'POST'])
-def createRawOutages():
-    # in case of post request, create raw outages and return json response
-    if request.method == 'POST':
-        reqData = request.get_json()
-        outagesCreator = RawOutagesCreationHandler(
-            appConfig['rawOutagesCreationServiceUrl'])
-        startDate = dt.datetime.strptime(reqData['startDate'], '%Y-%m-%d')
-        endDate = dt.datetime.strptime(reqData['endDate'], '%Y-%m-%d')
-        resp = outagesCreator.createRawOutages(startDate, endDate)
-        return jsonify(resp), resp['status']
-    # in case of get request just return the html template
-    return render_template('createRawOutages.html.j2')
-
+app.register_blueprint(createRawOutagesPage, url_prefix='/createRawOutages')
 
 @app.route('/createRawPairAngles', methods=['GET', 'POST'])
 def createRawPairAngles():
