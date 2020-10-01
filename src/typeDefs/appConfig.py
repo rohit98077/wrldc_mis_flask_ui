@@ -5,3 +5,4 @@ class IAppConfig(TypedDict):
     flaskPort:str
     rawOutagesCreationServiceUrl: str
     rawPairAnglesCreationServiceUrl:str
+    weeklyRepCreationServiceUrl:str

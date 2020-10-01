@@ -21,6 +21,7 @@ import json
 import os
 from waitress import serve
 from src.routeControllers.createRawOutages import createRawOutagesPage
+from src.routeControllers.createWeeklyReport import createWeeklyReportPage
 
 app = Flask(__name__)
 
@@ -42,6 +43,7 @@ def hello():
     return render_template('home.html.j2')
 
 app.register_blueprint(createRawOutagesPage, url_prefix='/createRawOutages')
+app.register_blueprint(createWeeklyReportPage, url_prefix='/createWeeklyReport')
 
 @app.route('/createRawPairAngles', methods=['GET', 'POST'])
 def createRawPairAngles():
