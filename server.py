@@ -2,7 +2,7 @@
 This is the web server that acts as a service that creates outages raw data
 '''
 from src.appConfig import getConfig
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, abort, send_file
 from src.services.rawOutagesCreationHandler import RawOutagesCreationHandler
 from src.services.rawPairAnglesCreationHandler import RawPairAnglesCreationHandler
 from src.services.rawFreqCreationHandler import RawFrequencyCreationHandler
@@ -15,13 +15,14 @@ from src.services.transmissionConstraintsHandler import TransmissionConstraintsC
 from src.services.ictConstraintsHandler import IctConstraintsCreationHandler
 from src.services.highVoltageNodeCreationHandler import HighVoltageNodeCreationHandler
 from src.services.lowVoltageNodeCreationHandler import LowVoltageNodeCreationHandler
+from src.utils.stringUtils import getReadableByteSize, getTimeStampString
 import datetime as dt
 import pandas as pd
 import json
 import os
 from waitress import serve
 from src.routeControllers.createRawOutages import createRawOutagesPage
-from src.routeControllers.createWeeklyReport import createWeeklyReportPage
+from src.routeControllers.weeklyReports import weeklyReportsPage
 
 app = Flask(__name__)
 
@@ -42,8 +43,11 @@ app.config['UPLOAD_EXTENSIONS'] = ['.xlsx']
 def hello():
     return render_template('home.html.j2')
 
+
 app.register_blueprint(createRawOutagesPage, url_prefix='/createRawOutages')
-app.register_blueprint(createWeeklyReportPage, url_prefix='/createWeeklyReport')
+app.register_blueprint(weeklyReportsPage,
+                       url_prefix='/weeklyReports')
+
 
 @app.route('/createRawPairAngles', methods=['GET', 'POST'])
 def createRawPairAngles():
