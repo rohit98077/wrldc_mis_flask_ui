@@ -10,7 +10,7 @@ from src.utils.stringUtils import getReadableByteSize, getTimeStampString
 appConfig = getConfig()
 
 weeklyReportsPage = Blueprint('weeklyReport', __name__,
-                             template_folder='templates')
+                              template_folder='templates')
 
 
 @weeklyReportsPage.route('/create', methods=['GET', 'POST'])
@@ -52,4 +52,6 @@ def showWeeklyReport(req_path):
                     x.stat().st_mtime),
                 'size': getReadableByteSize(x.stat().st_size)}
     fileObjs = [fObjFromScan(x) for x in os.scandir(abs_path)]
-    return render_template('showWeeklyReports.html.j2', files=fileObjs)
+    return render_template('showDirectory.html.j2', data={'files': fileObjs,
+                                                              'title': 'Weekly Reports',
+                                                              'heading': 'Weekly Reports'})
