@@ -15,6 +15,7 @@ from src.services.transmissionConstraintsHandler import TransmissionConstraintsC
 from src.services.ictConstraintsHandler import IctConstraintsCreationHandler
 from src.services.highVoltageNodeCreationHandler import HighVoltageNodeCreationHandler
 from src.services.lowVoltageNodeCreationHandler import LowVoltageNodeCreationHandler
+from src.services.derFreqFetcher import DerivedFrequencyFetcher
 from src.utils.stringUtils import getReadableByteSize, getTimeStampString
 import datetime as dt
 import pandas as pd
@@ -228,6 +229,21 @@ def createLowVoltageNode():
         return render_template('createLowVoltageNode.html.j2', data={'message': json.dumps(resp)})
     # in case of get request just return the html template
     return render_template('createLowVoltageNode.html.j2')
+
+@app.route('/displayDerivedFrequency', methods=['GET', 'POST'])
+def displayDerivedFrequency():
+    # in case of post request, create raw voltage and return json response
+    if request.method == 'POST':
+        startDate= request.form.get('startDate')
+        endDate= request.form.get('endDate')
+        derFreqFether = DerivedFrequencyFetcher(configDict['derivedFrequencyFetchUrl'])
+        startDate = dt.datetime.strptime(startDate, '%Y-%m-%d')
+        endDate = dt.datetime.strptime(endDate, '%Y-%m-%d')
+        resp = derFreqFether.fetchDerivedFrequency(startDate, endDate)
+        # print(resp)
+        return render_template('displayDerivedFreq.html.j2',resp=resp, method=request.method)
+    # in case of get request just return the html template
+    return render_template('displayDerivedFreq.html.j2', method=request.method)
 
 
 if __name__ == '__main__':
