@@ -2,7 +2,7 @@
 This is the web server that acts as a service that creates outages raw data
 '''
 from src.appConfig import getConfig
-from flask import Flask, request, jsonify, render_template, abort, send_file
+from flask import Flask, request, jsonify, render_template
 from src.services.rawOutagesCreationHandler import RawOutagesCreationHandler
 from src.services.rawPairAnglesCreationHandler import RawPairAnglesCreationHandler
 from src.services.rawFreqCreationHandler import RawFrequencyCreationHandler
