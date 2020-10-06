@@ -21,8 +21,8 @@ class DerivedFrequencyFetcher():
             "startDate": dt.datetime.strftime(startDate, '%Y-%m-%d'),
             "endDate": dt.datetime.strftime(endDate, '%Y-%m-%d')
         }
-        res = requests.post(self.derivedFrequencyFetchUrl,
-                            json=createDerivedFrequencyPayload)
+        res = requests.get(self.derivedFrequencyFetchUrl,
+                            params=createDerivedFrequencyPayload)
         # print(res)
         # print(type(res))
         # print(res.status_code)
@@ -31,7 +31,7 @@ class DerivedFrequencyFetcher():
         operationResult: DerivedFreqFetchResp = {
             "isSuccess": False,
             'status': res.status_code,
-            'message': 'Unable to display derived Frequency...',
+            'message': 'Unable to fetch derived Frequency...',
             'data': {'rows': [], 'weeklyFDI': -1}
         }
 

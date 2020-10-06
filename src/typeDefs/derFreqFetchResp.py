@@ -1,18 +1,6 @@
 from typing import TypedDict, List
 
 
-class DerivedFreqFetchResp(TypedDict):
-    isSuccess: bool
-    status: int
-    message: str
-    data: DerivedFreqData
-
-
-class DerivedFreqData(TypedDict):
-    rows: List[DayDerFreq]
-    weeklyFDI: float
-
-
 class DayDerFreq(TypedDict):
     date: float
     max: float
@@ -24,3 +12,15 @@ class DayDerFreq(TypedDict):
     out: float
     outHrs: float
     fdi: float
+
+
+class DerivedFreqData(TypedDict):
+    rows: List[DayDerFreq]
+    weeklyFDI: float
+
+
+class DerivedFreqFetchResp(TypedDict):
+    isSuccess: bool
+    status: int
+    message: str
+    data: DerivedFreqData
