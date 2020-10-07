@@ -24,6 +24,7 @@ from waitress import serve
 from src.routeControllers.createRawOutages import createRawOutagesPage
 from src.routeControllers.weeklyReports import weeklyReportsPage
 from src.routeControllers.derivedFreq import derviedFreqPage
+from src.routeControllers.iegcViolMsgs import iegcViolMsgsPage
 
 app = Flask(__name__)
 
@@ -47,6 +48,7 @@ def hello():
 
 app.register_blueprint(createRawOutagesPage, url_prefix='/createRawOutages')
 app.register_blueprint(derviedFreqPage, url_prefix='/derivedFreq')
+app.register_blueprint(iegcViolMsgsPage, url_prefix='/iegcViolMsgs')
 app.register_blueprint(weeklyReportsPage,
                        url_prefix='/weeklyReports')
 
