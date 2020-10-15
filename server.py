@@ -27,6 +27,7 @@ from src.routeControllers.derivedFreq import derviedFreqPage
 from src.routeControllers.iegcViolMsgs import iegcViolMsgsPage
 from src.routeControllers.transOutages import transOutagesPage
 from src.routeControllers.majorGenOutages import majorGenOutagesPage
+from src.routeControllers.longTimeUnrevForcedOutages import longUnrevForcedOutagesPage
 
 app = Flask(__name__)
 
@@ -53,6 +54,7 @@ app.register_blueprint(derviedFreqPage, url_prefix='/derivedFreq')
 app.register_blueprint(iegcViolMsgsPage, url_prefix='/iegcViolMsgs')
 app.register_blueprint(transOutagesPage, url_prefix='/transOutages')
 app.register_blueprint(majorGenOutagesPage, url_prefix='/majorGenOutages')
+app.register_blueprint(longUnrevForcedOutagesPage, url_prefix='/longUnrevForcedOutages')
 app.register_blueprint(weeklyReportsPage,
                        url_prefix='/weeklyReports')
 
