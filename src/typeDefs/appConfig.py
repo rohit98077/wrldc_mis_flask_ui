@@ -21,6 +21,7 @@ class IAppConfig(TypedDict):
     weeklyReportsFolderPath: str
     derivedFrequencyFetchUrl: str
     iegcViolMsgsFetchUrl: str
+    outagesFetchUrl: str
     transOutagesFetchUrl: str
     majorGenOutagesFetchUrl: str
     longUnrevForcedOutagesFetchUrl: str
